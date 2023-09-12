@@ -14,15 +14,15 @@ state(['pokemon' => fn () => $pokemon]);
                 <img class="w-auto h-6 hover:opacity-60" src="{{ Vite::asset('resources/images/arrow-left.png') }}"
                     alt="" />
             </a>
-            <h1 class="mt-0 mb-4 text-3xl font-semibold text-center uppercase">{{ $pokemon->name }}</h1>
+            <x-titles.h1>{{ $pokemon->name }}</x-titles.h1>
             <p class="text-3xl font-medium">#{{ $pokemon->id }}</p>
         </div>
         {{-- Image --}}
         <img class="mx-auto" src="{{ $pokemon->image }}" alt='Image of {{ $pokemon->name }}'>
         {{-- Info --}}
         <div
-            class="p-4 mt-2 bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
-            <ul class="grid grid-cols-2 text-base uppercase">
+            class="p-4 mt-2 text-xs bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
+            <ul class="grid grid-cols-2 text-lg tracking-wide uppercase">
                 <li><span class="font-semibold">Type: </span><span>{{ $pokemon->primary_type . ($pokemon->secondary_type
                         ? '
                         / ' : '') . $pokemon->secondary_type }}</span></li>
@@ -32,11 +32,10 @@ state(['pokemon' => fn () => $pokemon]);
                 <li><span class="font-semibold">Hp: </span><span>{{ $pokemon->hp }}</span></li>
                 <li><span class="font-semibold">Attack: </span><span>{{ $pokemon->attack }}</span></li>
                 <li><span class="font-semibold">Defense: </span><span>{{ $pokemon->defense }}</span></li>
-                <li><span class="font-semibold">Special attack: </span><span>{{ $pokemon->special_attack }}</span></li>
-                <li><span class="font-semibold">Special defense: </span><span>{{ $pokemon->special_defense }}</span>
+                <li><span class="font-semibold">Sp. attack: </span><span>{{ $pokemon->special_attack }}</span></li>
+                <li><span class="font-semibold">Sp. defense: </span><span>{{ $pokemon->special_defense }}</span>
                 </li>
                 <li><span class="font-semibold">Speed: </span><span>{{ $pokemon->speed }}</span></li>
-
             </ul>
         </div>
     </div>

@@ -12,7 +12,7 @@ state(['pokemons' => fn () => Pokemon::get()]);
 <x-layout>
     @volt
     <div>
-        <h1 class="mt-0 mb-4 text-3xl font-bold text-center uppercase">Pokedex</h1>
+        <x-titles.h1>Pokedex</x-titles.h1>
         <div class="grid grid-cols-4 gap-3">
             @foreach ($pokemons as $pokemon)
             <a class="bg-white" href="/pokemons/{{ $pokemon->id }}" wire:navigate>
