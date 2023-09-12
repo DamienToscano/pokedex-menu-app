@@ -14,8 +14,8 @@
         {{$slot}}
     </div>
 
-    <footer class="m-2 text-right">
-        Made with <img class="inline w-auto h-4 -mx-1" src="{{ Vite::asset('resources/images/heart.png') }}"
+    <footer class="m-2 text-center">
+        Made with <img class="inline w-auto h-4" src="{{ Vite::asset('resources/images/heart.png') }}"
             alt="Image of a heart"> by <a href="https://twitter.com/DamienToscano" target="_blank"
             class="underline underline-offset-4 hover:font-semibold">Damien Toscano</a>
 </body>
