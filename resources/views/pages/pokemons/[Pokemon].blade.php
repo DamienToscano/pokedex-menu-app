@@ -23,9 +23,12 @@ state(['pokemon' => fn () => $pokemon]);
         <div
             class="p-4 mt-2 text-xs bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
             <ul class="grid grid-cols-2 text-lg tracking-wide uppercase">
-                <li><span class="font-semibold">Type: </span><span>{{ $pokemon->primary_type . ($pokemon->secondary_type
-                        ? '
-                        / ' : '') . $pokemon->secondary_type }}</span></li>
+                <li><span class="font-semibold">Type: </span>
+                    <span class="text-{{ $pokemon->primary_type }}">{{ $pokemon->primary_type }}</span>
+                    @if ($pokemon->secondary_type)
+                    <span class="text-{{ $pokemon->secondary_type }}"> / {{ $pokemon->secondary_type }}</span>   
+                    @endif
+                </li>
                 <li><span class="font-semibold">Height: </span><span>{{ $pokemon->height }}</span></li>
                 <li><span class="font-semibold">Weight: </span><span>{{ $pokemon->weight }}</span></li>
                 <li><span class="font-semibold">Base Xp: </span><span>{{ $pokemon->base_experience }}</span></li>

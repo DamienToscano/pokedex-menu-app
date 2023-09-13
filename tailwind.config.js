@@ -2,18 +2,43 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./resources/**/*.blade.php",
-    "./resources/**/*.js",
-    "./resources/**/*.vue",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["VT323", ...defaultTheme.fontFamily.mono],
-      },
-    },
-  },
-  plugins: [],
+	content: [
+		"./resources/**/*.blade.php",
+		"./resources/**/*.js",
+		"./resources/**/*.vue",
+	],
+	theme: {
+		extend: {
+			fontFamily: {
+				sans: ["VT323", ...defaultTheme.fontFamily.mono],
+			},
+			colors: {
+				'bug': '#A7BD1C',
+				'grass': '#58AF94',
+				'fire': '#ea7571',
+				'fighting': '#DC6661',
+				'flying': '#95c8f9',
+				'ice': '#95c8f9',
+				'water': '#75AEF0',
+				'dragon': '#3A61DB',
+				'electric': '#F7CD5C',
+				'poison': '#8f6ba2',
+				'ghost': '#765488',
+				'ground': '#b98981',
+				'rock': '#a9756f',
+				'fairy': '#f68fb9',
+				'psychic': '#DF608B',
+				'normal': '#BFBFBF',
+				'steel': '#949494',
+				'dark': '#5A5366',
+			},
+		},
+	},
+	safelist: [
+		{
+			pattern: /bug|grass|fire|fighting|flying|ice|water|dragon|electric|poison|ghost|ground|rock|fairy|psychic|normal|steel|dark/,
+		}
+	],
+	plugins: [],
 }
 
