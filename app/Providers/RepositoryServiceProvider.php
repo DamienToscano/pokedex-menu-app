@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Repositories\PokemonRepository;
+use App\Repositories\ApiPokemonRepository;
 use App\Repositories\LocalPokemonRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +16,8 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             PokemonRepository::class,
-            LocalPokemonRepository::class,
+            // LocalPokemonRepository::class,
+            ApiPokemonRepository::class
         );
     }
 

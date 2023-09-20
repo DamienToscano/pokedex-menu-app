@@ -3,7 +3,7 @@
 use App\Models\Pokemon;
 use App\Repositories\PokemonRepository;
 use Illuminate\Support\Stringable;
-use function Livewire\Volt\{computed, state, mount};
+use function Livewire\Volt\{mount};
 
 mount(function (PokemonRepository $repository) {
     $this->pokemons = $repository->index();

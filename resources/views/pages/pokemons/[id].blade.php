@@ -3,7 +3,7 @@
 use App\Exceptions\PokemonNotFoundException;
 use App\Repositories\PokemonRepository;
 use function Laravel\Folio\name;
-use function Livewire\Volt\{state, mount, computed};
+use function Livewire\Volt\{mount};
 
 mount(function (PokemonRepository $repository, int $id) {
     try {
