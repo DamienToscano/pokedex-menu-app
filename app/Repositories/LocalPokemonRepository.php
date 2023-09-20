@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DataObjects\PokemonData;
+use App\DataObjects\PokemonSimpleData;
 use App\Exceptions\PokemonNotFoundException;
 use App\Models\Pokemon;
 
@@ -11,21 +12,9 @@ class LocalPokemonRepository implements PokemonRepository
     public function index(): array
     {
         return Pokemon::get()->map(function (Pokemon $pokemon) {
-            return new PokemonData(
-                $pokemon->id,
-                $pokemon->name,
-                $pokemon->image,
-                $pokemon->base_experience,
-                $pokemon->height,
-                $pokemon->weight,
-                $pokemon->attack,
-                $pokemon->defense,
-                $pokemon->hp,
-                $pokemon->speed,
-                $pokemon->special_attack,
-                $pokemon->special_defense,
-                $pokemon->primary_type,
-                $pokemon->secondary_type,
+            return new PokemonSimpleData(
+                id: $pokemon->id,
+                image: $pokemon->image,
             );
         })->toArray();
     }
@@ -39,20 +28,20 @@ class LocalPokemonRepository implements PokemonRepository
         }
 
         return new PokemonData(
-            $pokemon->id,
-            $pokemon->name,
-            $pokemon->image,
-            $pokemon->base_experience,
-            $pokemon->height,
-            $pokemon->weight,
-            $pokemon->attack,
-            $pokemon->defense,
-            $pokemon->hp,
-            $pokemon->speed,
-            $pokemon->special_attack,
-            $pokemon->special_defense,
-            $pokemon->primary_type,
-            $pokemon->secondary_type,
+            id: $pokemon->id,
+            name: $pokemon->name,
+            image: $pokemon->image,
+            base_experience: $pokemon->base_experience,
+            height: $pokemon->height,
+            weight: $pokemon->weight,
+            attack: $pokemon->attack,
+            defense: $pokemon->defense,
+            hp: $pokemon->hp,
+            speed: $pokemon->speed,
+            special_attack: $pokemon->special_attack,
+            special_defense: $pokemon->special_defense,
+            primary_type: $pokemon->primary_type,
+            secondary_type: $pokemon->secondary_type,
         );
     }
 }
