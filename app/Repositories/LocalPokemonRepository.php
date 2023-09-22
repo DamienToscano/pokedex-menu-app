@@ -11,6 +11,7 @@ class LocalPokemonRepository implements PokemonRepository
 {
     public function index(): array
     {
+        /* TODO: Mettre en place la pagination ici aussi */
         return Pokemon::get()->map(function (Pokemon $pokemon) {
             return new PokemonSimpleData(
                 id: $pokemon->id,

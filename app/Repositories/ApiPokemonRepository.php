@@ -2,26 +2,56 @@
 
 namespace App\Repositories;
 
+use App\DataObjects\CustomPaginationData;
 use App\DataObjects\PokemonData;
 use App\DataObjects\PokemonSimpleData;
 use App\Exceptions\PokemonNotFoundException;
-use App\Models\Pokemon;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Lottery;
 
 class ApiPokemonRepository implements PokemonRepository
 {
-    protected $url = 'https://pokeapi.co/api/v2/pokemon/';
+    protected string $url = 'https://pokeapi.co/api/v2/pokemon/';
+    protected string $image_url = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
+    protected int $number_per_page = 16;
 
-    public function index(): array
+    public function index(int $offset = 0): CustomPaginationData
     {
-        /* TODO: On remplace ça par des appels API ? */
-        return Pokemon::get()->map(function (Pokemon $pokemon) {
+        $pokemons = [];
+
+        $response = Http::get($this->url . '?offset=' . ($offset) . '&limit=' . $this->number_per_page);
+        $decoded_reponse = json_decode($response->body());
+        $data = $decoded_reponse->results;
+        $count = $decoded_reponse->count;
+
+        if ($decoded_reponse->next) {
+            parse_str(parse_url($decoded_reponse->next)['query'], $next_query);
+            $next_offset = $next_query['offset'];
+        }
+
+        if ($decoded_reponse->previous) {
+            parse_str(parse_url($decoded_reponse->previous)['query'], $previous_query);
+            $previous_offset = $previous_query['offset'];
+        }
+
+
+        $pokemons = Arr::map($data, function ($pokemon) {
+            $id = $this->getIdFromUrl($pokemon->url);
+
             return new PokemonSimpleData(
-                id: $pokemon->id,
-                image: $pokemon->image,
+                id: $id,
+                image: $this->getImageUrl($id),
             );
-        })->toArray();
+        });
+
+        return new CustomPaginationData(
+            items: $pokemons,
+            total: $count,
+            previous: $previous_offset ?? null,
+            next: $next_offset ?? null,
+            page_count:count($pokemons),
+        );
     }
 
     public function find(int $id): PokemonData
@@ -37,11 +67,13 @@ class ApiPokemonRepository implements PokemonRepository
         return new PokemonData(
             id: $pokemon->id,
             name: $pokemon->name,
-            image: Lottery::odds(1, 10)
-                            ->winner(fn () => $pokemon->sprites->front_shiny)
-                            ->loser(fn () => $pokemon->sprites->front_default)
-                            ->choose(),
-            base_experience: $pokemon->base_experience,
+            image: $pokemon->sprites->front_default ?
+                Lottery::odds(1, 10)
+                ->winner(fn () => $pokemon->sprites->front_shiny)
+                ->loser(fn () => $pokemon->sprites->front_default)
+                ->choose()
+                : '',
+            base_experience: $pokemon->base_experience ?: 0,
             height: $pokemon->height,
             weight: $pokemon->weight,
             attack: $pokemon->stats[1]->base_stat,
@@ -53,5 +85,15 @@ class ApiPokemonRepository implements PokemonRepository
             primary_type: $pokemon->types[0]->type->name,
             secondary_type: $pokemon->types[1]->type->name ?? null
         );
+    }
+
+    protected function getImageUrl(int $id): string
+    {
+        return $this->image_url . $id . '.png';
+    }
+
+    protected function getIdFromUrl(string $url): int
+    {
+        return (int) Arr::last(explode('/', trim($url, '/')));
     }
 }

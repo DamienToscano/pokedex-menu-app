@@ -2,24 +2,33 @@
 
 use App\Exceptions\PokemonNotFoundException;
 use App\Repositories\PokemonRepository;
+use Livewire\Attributes\Url;
 use function Laravel\Folio\name;
-use function Livewire\Volt\{mount};
+use Livewire\Volt\Component;
 
-mount(function (PokemonRepository $repository, int $id) {
-    try {
-        $this->pokemon = $repository->find($id);
-    } catch (PokemonNotFoundException $e) {
-        abort(404);
+new class extends Component {
+
+    #[Url]
+    public $offset;
+
+    public function mount(PokemonRepository $repository, int $id) {
+
+        /* TODO: Register the repository here as $this->repository and use it on a computed properties to allow persitence ->perists()  */
+
+        try {
+            $this->pokemon = $repository->find($id);
+        } catch (PokemonNotFoundException $e) {
+            abort(404);
+        }
     }
-});
 
-?>
+} ?>
 
 <x-layout>
     @volt
     <div>
         <div class="flex items-baseline justify-between">
-            <a href="/" wire:navigate.hover>
+            <a href="/?offset={{ $this->offset }}" wire:navigate.hover>
                 <img class="w-auto h-6 hover:opacity-60" src="{{ Vite::asset('resources/images/arrow-left.png') }}"
                     alt="" />
             </a>
@@ -27,7 +36,11 @@ mount(function (PokemonRepository $repository, int $id) {
             <p class="text-3xl font-medium">#{{ $this->pokemon->id }}</p>
         </div>
         {{-- Image --}}
+        @if (! $this->pokemon->image)
+        <p class='text-center'>Image not available yet on the API for this pokemon</p>
+        @else
         <img class="mx-auto" src="{{ $this->pokemon->image }}" alt='Image of {{ $this->pokemon->name }}'>
+        @endif
         {{-- Info --}}
         <div
             class="p-4 mt-2 text-xs bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
