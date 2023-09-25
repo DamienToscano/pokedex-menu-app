@@ -16,11 +16,11 @@ class ApiPokemonRepository implements PokemonRepository
     protected string $image_url = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
     protected int $number_per_page = 16;
 
-    public function index(int $offset = 0): CustomPaginationData
+    public function index(int $page = 1): CustomPaginationData
     {
         $pokemons = [];
 
-        $response = Http::get($this->url . '?offset=' . ($offset) . '&limit=' . $this->number_per_page);
+        $response = Http::get($this->url . '?offset=' . (($page - 1) * $this->number_per_page) . '&limit=' . $this->number_per_page);
         $decoded_reponse = json_decode($response->body());
         $data = $decoded_reponse->results;
         $count = $decoded_reponse->count;
@@ -28,11 +28,15 @@ class ApiPokemonRepository implements PokemonRepository
         if ($decoded_reponse->next) {
             parse_str(parse_url($decoded_reponse->next)['query'], $next_query);
             $next_offset = $next_query['offset'];
+            // Convert offset to page
+            $next_page = $next_offset / $this->number_per_page + 1;
         }
 
         if ($decoded_reponse->previous) {
             parse_str(parse_url($decoded_reponse->previous)['query'], $previous_query);
             $previous_offset = $previous_query['offset'];
+            // Convert offset to page
+            $previous_page = $previous_offset / $this->number_per_page + 1;
         }
 
 
@@ -48,9 +52,9 @@ class ApiPokemonRepository implements PokemonRepository
         return new CustomPaginationData(
             items: $pokemons,
             total: $count,
-            previous: $previous_offset ?? null,
-            next: $next_offset ?? null,
-            page_count:count($pokemons),
+            previous: $previous_page ?? null,
+            next: $next_page ?? null,
+            page_count: $this->number_per_page,
         );
     }
 
