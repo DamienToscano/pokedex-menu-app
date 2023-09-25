@@ -9,7 +9,7 @@ use Livewire\Volt\Component;
 new class extends Component {
 
     #[Url]
-    public $offset;
+    public $page;
 
     public function mount(PokemonRepository $repository, int $id) {
 
@@ -28,7 +28,7 @@ new class extends Component {
     @volt
     <div>
         <div class="flex items-baseline justify-between">
-            <a href="/?offset={{ $this->offset }}" wire:navigate.hover>
+            <a href="/?page={{ $this->page }}" wire:navigate.hover>
                 <img class="w-auto h-6 hover:opacity-60" src="{{ Vite::asset('resources/images/arrow-left.png') }}"
                     alt="" />
             </a>
