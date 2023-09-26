@@ -23,13 +23,12 @@ class LocalPokemonRepository implements PokemonRepository
         })->toArray();
 
         // Set metadata
-        $count = count($pokemons);
         $previous_page = ($page - 1) > 0 ? $page - 1 : null;
-        $next_page = ($count == $this->number_per_page) ? $page + 1 : null;
+        $next_page = (count($pokemons) == $this->number_per_page) ? $page + 1 : null;
 
         return new CustomPaginationData(
             items: $pokemons,
-            total: $count,
+            total: Pokemon::count(),
             previous: $previous_page,
             next: $next_page,
             page_count: $this->number_per_page,
