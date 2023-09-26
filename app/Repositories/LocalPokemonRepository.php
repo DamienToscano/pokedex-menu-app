@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\DataObjects\CustomPaginationData;
 use App\DataObjects\PokemonData;
 use App\DataObjects\PokemonSimpleData;
 use App\Exceptions\PokemonNotFoundException;
@@ -9,15 +10,30 @@ use App\Models\Pokemon;
 
 class LocalPokemonRepository implements PokemonRepository
 {
-    public function index(): array
+    protected int $number_per_page = 16;
+
+    public function index(int $page = 1): CustomPaginationData
     {
-        /* TODO: Mettre en place la pagination ici aussi */
-        return Pokemon::get()->map(function (Pokemon $pokemon) {
+        // Parse pokemons data
+        $pokemons =  Pokemon::take($this->number_per_page)->skip(($page - 1) * $this->number_per_page)->get()->map(function (Pokemon $pokemon) {
             return new PokemonSimpleData(
                 id: $pokemon->id,
                 image: $pokemon->image,
             );
         })->toArray();
+
+        // Set metadata
+        $count = count($pokemons);
+        $previous_page = ($page - 1) > 0 ? $page - 1 : null;
+        $next_page = ($count == $this->number_per_page) ? $page + 1 : null;
+
+        return new CustomPaginationData(
+            items: $pokemons,
+            total: $count,
+            previous: $previous_page,
+            next: $next_page,
+            page_count: $this->number_per_page,
+        );
     }
 
     public function find(int $id): PokemonData
