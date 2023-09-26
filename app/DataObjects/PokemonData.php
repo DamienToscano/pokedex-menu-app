@@ -7,7 +7,7 @@ readonly class PokemonData
     public function __construct(
         public int $id,
         public string $name,
-        public string $image,
+        public ?string $image,
         public int $base_experience,
         public int $height,
         public int $weight,

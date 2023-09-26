@@ -68,15 +68,25 @@ class ApiPokemonRepository implements PokemonRepository
 
         $pokemon = json_decode($response->body());
 
+        // Define shiny image logic
+        $image = null;
+
+        if ($pokemon->sprites->front_default) {
+            /* Check that there is a shiny image before running the lottery */
+            if ($pokemon->sprites->front_shiny) {
+                $image = Lottery::odds(1, 10)
+                ->winner(fn () => $pokemon->sprites->front_shiny)
+                ->loser(fn () => $pokemon->sprites->front_default)
+                ->choose();
+            } else {
+                $image = $pokemon->sprites->front_default;
+            }
+        }
+
         return new PokemonData(
             id: $pokemon->id,
             name: $pokemon->name,
-            image: $pokemon->sprites->front_default ?
-                Lottery::odds(1, 10)
-                ->winner(fn () => $pokemon->sprites->front_shiny)
-                ->loser(fn () => $pokemon->sprites->front_default)
-                ->choose()
-                : '',
+            image: $image,
             base_experience: $pokemon->base_experience ?: 0,
             height: $pokemon->height,
             weight: $pokemon->weight,
