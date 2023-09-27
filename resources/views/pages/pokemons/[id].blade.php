@@ -2,7 +2,7 @@
 
 use App\Exceptions\PokemonNotFoundException;
 use App\Repositories\PokemonRepository;
-use Livewire\Attributes\Url;
+use Livewire\Attributes\{Computed, Url};
 use function Laravel\Folio\name;
 use Livewire\Volt\Component;
 
@@ -10,13 +10,21 @@ new class extends Component {
 
     #[Url]
     public $page;
+    protected $repository;
+    protected $id;
 
     public function mount(PokemonRepository $repository, int $id) {
+        $this->repository = $repository;
+        $this->id = $id;
+    }
 
-        /* TODO: Register the repository here as $this->repository and use it on a computed properties to allow persitence ->perists()  */
-
+    #[Computed]
+    public function pokemon()
+    {
         try {
-            $this->pokemon = $repository->find($id);
+            return Cache::remember('pokemon' . $this->id, 1800, function () {
+                return $this->repository->find($this->id);
+            });
         } catch (PokemonNotFoundException $e) {
             abort(404);
         }
@@ -48,7 +56,8 @@ new class extends Component {
                 <li><span class="font-semibold">Type: </span>
                     <span class="text-{{ $this->pokemon->primary_type }}">{{ $this->pokemon->primary_type }}</span>
                     @if ($this->pokemon->secondary_type)
-                    <span> / <span class="text-{{ $this->pokemon->secondary_type }}">{{ $this->pokemon->secondary_type }}</span></span>   
+                    <span> / <span class="text-{{ $this->pokemon->secondary_type }}">{{ $this->pokemon->secondary_type
+                            }}</span></span>
                     @endif
                 </li>
                 <li><span class="font-semibold">Height: </span><span>{{ $this->pokemon->height }}</span></li>
@@ -57,7 +66,8 @@ new class extends Component {
                 <li><span class="font-semibold">Hp: </span><span>{{ $this->pokemon->hp }}</span></li>
                 <li><span class="font-semibold">Attack: </span><span>{{ $this->pokemon->attack }}</span></li>
                 <li><span class="font-semibold">Defense: </span><span>{{ $this->pokemon->defense }}</span></li>
-                <li><span class="font-semibold">Sp. attack: </span><span>{{ $this->pokemon->special_attack }}</span></li>
+                <li><span class="font-semibold">Sp. attack: </span><span>{{ $this->pokemon->special_attack }}</span>
+                </li>
                 <li><span class="font-semibold">Sp. defense: </span><span>{{ $this->pokemon->special_defense }}</span>
                 </li>
                 <li><span class="font-semibold">Speed: </span><span>{{ $this->pokemon->speed }}</span></li>

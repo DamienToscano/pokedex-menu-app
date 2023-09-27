@@ -12,14 +12,24 @@ new class extends Component {
     public $next;
     public $total;
     public $page_count;
+    protected $repository;
 
-    public function getPokemonsProperty(PokemonRepository $repository): array
+    public function mount(PokemonRepository $repository) {
+        $this->repository = $repository;
+    }
+
+    #[Computed]
+    public function pokemons()
     {
-        $data = $repository->index($this->page);
+        $data = Cache::remember('pokemons' . $this->page, 1800, function () {
+            return $this->repository->index($this->page);
+        });
+
         $this->previous = $data->previous;
         $this->next = $data->next;
         $this->total = $data->total;
         $this->page_count = $data->page_count;
+
         return $data->items;
     }
 
