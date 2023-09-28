@@ -2,11 +2,12 @@
  
 namespace App\DataObjects;
  
-readonly class PokemonSimpleData
+/* TODO: Voir pourquoi le readonly ne passe pas sur NativePHP, surement à cause de la version de php */
+class PokemonSimpleData
 {
     public function __construct(
-        public int $id,
-        public string $image,
+        public readonly int $id,
+        public readonly string $image,
     ) {
     }
 }

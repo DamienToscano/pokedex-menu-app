@@ -10,11 +10,11 @@
 </head>
 
 <body class="antialiased font-retro bg-slate-50">
-    <div class="max-w-md px-4 py-6 mx-auto">
+    <div class="max-w-md px-4 py-4 mx-auto">
         {{$slot}}
     </div>
 
-    <footer class="m-2 text-lg text-center">
+    <footer class="mx-2 mb-1 text-lg text-center">
         Made with <img class="inline w-auto h-4" src="{{ Vite::asset('resources/images/heart.png') }}"
             alt="Image of a heart"> by <a href="https://twitter.com/DamienToscano" target="_blank"
             class="underline underline-offset-4 hover:font-semibold">Damien Toscano</a>

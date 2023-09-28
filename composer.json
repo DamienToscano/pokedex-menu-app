@@ -13,7 +13,8 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
-        "livewire/volt": "^1.2"
+        "livewire/volt": "^1.2",
+        "nativephp/electron": "^0.4.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -2,14 +2,14 @@
  
 namespace App\DataObjects;
  
-readonly class CustomPaginationData
+class CustomPaginationData
 {
     public function __construct(
-        public array $items,
-        public int $total,
-        public ?int $previous,
-        public ?int $next,
-        public int $page_count,
+        public readonly array $items,
+        public readonly int $total,
+        public readonly ?int $previous,
+        public readonly ?int $next,
+        public readonly int $page_count,
     ) {
     }
 }
