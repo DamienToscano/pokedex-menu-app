@@ -1,10 +1,9 @@
 # Pokedex Menu App
 
-<div style="display:flex; justify-content:space-between;">
-<p style="width: 45%;"><img src="https://github.com/DamienToscano/pokedex-menu-app/blob/main/public/listing.png?raw=true" alt="Pokedex listing"></p>
-
-<p style="width: 45%;"><img src="https://github.com/DamienToscano/pokedex-menu-app/blob/main/public/detail.png?raw=true" alt="Pokedex listing"></p>
-</div>
+<p float="left">
+    <img style="width: 48%;" src="https://github.com/DamienToscano/pokedex-menu-app/blob/main/public/listing.png?raw=true" alt="Pokedex listing">
+    <img style="width: 48%;" src="https://github.com/DamienToscano/pokedex-menu-app/blob/main/public/detail.png?raw=true" alt="Pokedex listing">
+</p>
 
 ## Introduction
 
