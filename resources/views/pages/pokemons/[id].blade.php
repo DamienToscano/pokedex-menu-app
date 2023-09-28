@@ -47,11 +47,11 @@ new class extends Component {
         @if (! $this->pokemon->image)
         <p class='text-center'>Image not available yet on the API for this pokemon</p>
         @else
-        <img class="mx-auto" src="{{ $this->pokemon->image }}" alt='Image of {{ $this->pokemon->name }}'>
+        <img class="w-auto mx-auto h-36" src="{{ $this->pokemon->image }}" alt='Image of {{ $this->pokemon->name }}'>
         @endif
         {{-- Info --}}
         <div
-            class="p-4 mt-2 text-xs bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
+            class="p-4 my-10 text-xs bg-white border-2 border-gray-400 rounded outline outline-2 outline-offset-1 outline-gray-600">
             <ul class="grid grid-cols-2 text-lg tracking-wide uppercase">
                 <li><span class="font-semibold">Type: </span>
                     <span class="text-{{ $this->pokemon->primary_type }}">{{ $this->pokemon->primary_type }}</span>

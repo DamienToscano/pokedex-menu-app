@@ -9,8 +9,8 @@
     @vite('resources/css/app.css')
 </head>
 
-<body class="antialiased font-retro bg-slate-50">
-    <div class="max-w-md px-4 py-4 mx-auto">
+<body class="antialiased font-retro bg-slate-50 h-[550px] flex flex-col justify-between">
+    <div class="w-full max-w-md px-4 py-4 mx-auto">
         {{$slot}}
     </div>
 
