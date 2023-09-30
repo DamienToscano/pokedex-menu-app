@@ -45,7 +45,14 @@ npm install
 php artisan native:install
 ```
 
-3. Launch the project
+3. Setup project
+```bash
+cp .env.example .env
+
+php artisan key:generate
+```
+
+4. Launch the project
 ```bash
 npm run dev
 
